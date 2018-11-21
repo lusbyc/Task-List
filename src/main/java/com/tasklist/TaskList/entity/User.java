@@ -18,10 +18,10 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
+	private Integer userid;
 	private String name;
 	private String email;
 	private String password;
-	private Integer userid;
 
 	@OneToMany(mappedBy = "u1") // links to the userid object in the Task class
 	private List<Task> tasks = new ArrayList<>();

@@ -18,7 +18,7 @@
 		<thead>
 		</thead>
 		<tbody>
-			<form action="/adduser" method="post">
+			<form action="/usertasks" method="post">
 				<tr>
 					<td>Name:</td>
 					<td><input id="name" type="text" name="name"></td>
@@ -36,10 +36,11 @@
 					<td><input class="btn btn-primary" type="submit"
 						value="Register"></td>
 				</tr>
+				</form>
 		</tbody>
 	</table>
 
-	</form>
+	
 
       <small>Already Registered? <a href="/">Sign In</a></small>
 

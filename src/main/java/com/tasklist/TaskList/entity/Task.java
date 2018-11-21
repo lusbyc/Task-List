@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tasks")
 
-@NamedQuery(name="find_all_tasks", query="select taskdescription from task tR")
+//@NamedQuery(name="find_all_tasks", query="select taskdescription from task tR")
 public class Task {
 
 	@Id

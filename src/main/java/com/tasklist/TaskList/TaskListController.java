@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tasklist.TaskList.entity.Task;
 import com.tasklist.TaskList.entity.User;
@@ -38,6 +39,12 @@ public class TaskListController {
 		return mv;
 	}
 	
+	@RequestMapping("/register2")
+	public ModelAndView registerTwo() {
+		ModelAndView mv = new ModelAndView("register2");
+		return mv;
+	}
+	
 	@RequestMapping("/login")
 	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView("login", "firstPage", "Task List Administration");
@@ -53,7 +60,7 @@ public class TaskListController {
 		session.setAttribute("user", u1);
 //		mv.addObject("fname", firstname);
 //		c.setFirstname(firstname);
-		return new ModelAndView("tasks", "userwelcome", "Welcome to the Task List Administrator site, " + u1.getName());
+		return new ModelAndView("redirect:/tasks", "userwelcome", "Welcome to the Task List Administrator site, " + u1.getName());
 	}
 	
 	@RequestMapping("/delete")
@@ -74,6 +81,33 @@ public class TaskListController {
 	public ModelAndView userTasks(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession session) {
 		User user = uR.findByEmail(email);
 		List<Task> tasks = user.getTasks();
-		return new ModelAndView("usertasks", "tasks", tasks);
+		return new ModelAndView("tasks", "alltasks", tasks);
 	}
+	
+
+	@RequestMapping("/login-confirmed")
+	public ModelAndView loginNew(User user) {
+		ModelAndView mv = new ModelAndView("login-confirmed");
+		uR.save(user);
+		return mv;
+	}
+
+	@RequestMapping("/login-request")
+	public ModelAndView loginRequest(User user, RedirectAttributes redirectAttrs) {
+		ModelAndView mv = new ModelAndView("login-confirmed");
+		if (uR.findByEmail(user.getEmail()) != null) {
+			if (uR.findByEmail(user.getEmail()).getPassword().equals(user.getPassword())) {
+				return mv;
+			}
+			
+		}
+		
+		redirectAttrs.addFlashAttribute("message", "Invalid Credentials");
+
+		mv = new ModelAndView("redirect:/");
+		return mv;
+	}
+
+
+	
 }
